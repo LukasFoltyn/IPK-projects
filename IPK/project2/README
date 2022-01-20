@@ -1,0 +1,48 @@
+Project: Packet-Sniffer, IPK 2021
+Author: Lukáš Foltyn
+
+Description:
+This program is used for catching the network packets
+and displaying them to the user. Supported packets are TCP, UDP, ARP,
+ICMP, ICMPv6 for IPv4 as well as IPv6, extension headers included.
+
+Program arguments:
+./ipk-sniffer [-i interface_name | --interface interface_name] {-p ­­port} {[--tcp|-t] [--udp|-u] [--arp] [--icmp] } {-n num}
+--interface or -i with optional interface name for specifying particular interface
+--tcp or -t for TCP packet
+--udp or -u for UDP packet
+--arp for ARP packet
+--icmp for ICMPv4 and ICMPv6
+-p X for choosing port, where X represents a number
+-n X for choosing the number of packets to display
+
+Usage example:
+For listing available interfaces:
+    ./ipk-sniffer -i
+    ./ipk-sniffer
+
+For catching packets:
+    sudo ./ipk-sniffer -i eth0
+    sudo ./ipk-sniffer --interface wlo1 --tcp --udp -p 44 -n 20
+    sudo ./ipk-sniffer -i eth0 --arp --icmp
+    sudo ./ipk-sniffer -i eth0 --arp --icmp -t -u
+
+Important notes:
+- program needs to be run with root privileges when catching packets
+- if for example 'sudo ./ipk-sniffer -i wlo1 --arp -p 23' is run,
+the program will wait forever because ARP packet
+does not contain a port that is required by the user
+- from ARP packets the sender/target IP address is printed out
+
+
+Project dependencies:
+libcap library for C/C++ - available at http://www.tcpdump.org/
+
+Project files:
+- Makefile
+- defined_headers.h
+- packet_info.h
+- packet_info.cpp
+- ipk-sniffer.cpp
+- manual.pdf
+- README
